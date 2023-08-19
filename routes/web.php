@@ -30,3 +30,8 @@ Route::post("/user/login",[LoginController::class,'userLogin']);
 Route::get("/insert-question",[QuestionController::class,'index']);
 Route::post("/submit-question",[QuestionController::class,'submitQuestion']);
 Route::get("/show-question",[QuestionController::class,'showQuestion']);
+
+// web.php (Laravel routes)
+Route::get('/edit-question/{id}', [QuestionController::class,'edit']);
+Route::post('/update-question/{id}', [QuestionController::class,'update']);
+Route::delete('/delete-question/{id}', [QuestionController::class,'destroy']);

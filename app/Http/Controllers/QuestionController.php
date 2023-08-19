@@ -38,7 +38,40 @@ class QuestionController extends Controller
     {
         //$users=User::all();
         $questions=Question::all();
+        foreach ($questions as $question) {
+            $question->answers = json_decode($question->answers, true);
+        }
         //dd($questions);
         return Inertia::render('ShowQuestion',compact('questions'));
     }
+
+
+    // QuestionController.php (Laravel controller)
+    public function edit($id)
+    {
+        $question = Question::findOrFail($id);
+        //dd($question);
+        $question->answers = json_decode($question->answers, true);
+        //dd($question);
+        return Inertia::render('EditQuestion', [
+             'question' => $question,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $question = Question::findOrFail($id);
+        // Update the question using $request data
+        $question->update($request->all());
+        dd($question);
+        return redirect()->back();
+    }
+
+    public function destroy($id)
+    {
+        $question = Question::findOrFail($id);
+        $question->delete();
+        return redirect()->back();
+    }
+
 }
