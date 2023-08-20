@@ -1,4 +1,7 @@
 <template>
+    <div>
+        <Link href="insert-question">Insert question</Link>
+    </div>
     <center>
         <h1>All Questions</h1>
         <div>
@@ -50,7 +53,12 @@
 </template>
 
 <script>
+import {Link} from '@inertiajs/vue3';
+
 export default{
+    components:{
+        Link
+    },
     props:{
         questions: Object
     },

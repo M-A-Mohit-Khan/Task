@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <Link href="show-question">All Question</Link>
+  </div>
     <center>
       <div>
         <h2>Insert Question</h2>
@@ -27,8 +30,11 @@
 
 <script>
 //import { router } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3';
 export default {
-  
+  components:{
+    Link
+  },
   data() {
     return {
       
