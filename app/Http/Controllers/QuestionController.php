@@ -19,7 +19,7 @@ class QuestionController extends Controller
 
     public function submitQuestion(Request $request)
     {
-        //dd($question);
+        //dd($request->all());
         //$users=User::all();
         $question=new Question;
         $question->question=$request->input('question');
@@ -28,6 +28,7 @@ class QuestionController extends Controller
         foreach($answers as $key=>$value) {
             $answers[$key]['correct']=!$answers[$key]['correct'];
         }
+        //dd($answers);
         $question->answers=json_encode($answers);
         $question->save();
         //dd($question);
@@ -60,11 +61,22 @@ class QuestionController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $question = Question::findOrFail($id);
+        $newQuestion=$request->input('question');
+        $newAnswers=$request->input('answers');
+        // foreach($newAnswers as $key=>$value) {
+        //     $newAnswers[$key]['correct']=!$newAnswers[$key]['correct'];
+        // }
+        $question->answers=json_encode($newAnswers);
+        //dd($answers);
         // Update the question using $request data
-        $question->update($request->all());
-        dd($question);
-        return redirect()->back();
+        $question->question=$newQuestion;
+        //dd($question->question);
+        $question->answers=$newAnswers;
+        //dd($question->answers);
+        $question->save();
+        return Inertia::location('/show-question');
     }
 
     public function destroy($id)

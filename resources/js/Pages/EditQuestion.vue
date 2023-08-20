@@ -7,11 +7,11 @@
         
         <br><br>
 
-        <div v-for="(answer, index) in answers" :key="index">
-            <input v-model="answers.text" :placeholder="'Answer ' + (index + 1)" required/>
+        <div v-for="(answer, index) in question.answers" :key="index">
+            <input v-model="answer.text" :placeholder="'Answer ' + (index + 1)" required/>
             <!-- hidden: if answer[index] is false -->
             <button @click="markCorrect(index)" >
-              <span v-if="!answer.correct">👍</span>
+              <span v-if="answer.correct">👍</span>
             <span v-else>👎</span>
             </button>
             <!-- <button v-else>👎</button> -->
@@ -20,7 +20,7 @@
             
         </div>
         <br>
-        <button @click="submitForm">Submit</button>
+        <button @click="submitForm(question.id)">Submit</button>
         <!-- </form> -->
       </div>
     </center>
@@ -43,30 +43,28 @@ export default {
   
   methods: {
     markCorrect(index) {
-      this.answers.forEach((answer, i) => {
+      this.question.answers.forEach((answer, i) => {
         if (i === index) {
-          answer.correct = false;
-        } else {
           answer.correct = true;
+        } else {
+          answer.correct = false;
         }
       });
     },
-    markWrong(index) {
-      this.answers[index].correct = false;
-    },
+    
     addAnswer() {
-      this.answers.push({ text: "", correct: false });
+      this.question.answers.push({ text: "", correct: false });
     },
     removeAnswer(index) {
       if(index!=0)
       {
-        this.answers.splice(index, 1);
+        this.question.answers.splice(index, 1);
       }
     },
-    submitForm() {
-      this.$inertia.post("/submit-question", {
-        question: this.question,
-        answers: this.answers,
+    submitForm(id) {
+      this.$inertia.post('/update-question/' + id, {
+        question: this.defaultQuestion,
+        answers: this.question.answers,
       });
     }
   }
